@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "rubigen"
+
+if %w(-v --version).include? ARGV.first
+  require "gploy"
+  puts "#{File.basename($0)} - #{Gploy::Configure::VERSION}"
+  exit(0)
+end
+
+if %(-configure -c).include? ARGV.first
+  require "gploy"
+  c = Gploy::Configure.new
+  c.configure_server
+end
+if %(-pr).include? ARGV.first
+  require "gploy"
+  c = Gploy::Configure.new
+  c.configure_hook
+end
+if %(-setup -s).include? ARGV.first
+  require "gploy"
+  c = Gploy::Configure.new
+  c.setup
+end
+if %(-update-hook -uh).include? ARGV.first
+  require "gploy"
+  c = Gploy::Configure.new
+  c.upload_hook
+end
+
