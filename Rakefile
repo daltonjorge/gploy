@@ -5,8 +5,8 @@ require 'rake/gempackagetask'
 require 'spec/rake/spectask'
  
 GEM = "gploy"
-GEM_VERSION = "0.2.0"
-SUMMARY = "Simples gem Creae"
+GEM_VERSION = "0.0.1"
+SUMMARY = "Sample gem to configure rails project deploy using git(locaweb server only)"
 AUTHOR = "Edipo Luis Federle"
 EMAIL = "edipofederle@gmail.com"
 HOMEPAGE = "http://edipolf.com"
@@ -17,7 +17,7 @@ spec = Gem::Specification.new do |s|
   s.version = GEM_VERSION
   s.platform = Gem::Platform::RUBY
   s.summary = SUMMARY
-  s.require_paths = ['app_generators', 'bin', 'lib']
+  s.require_paths = ['bin', 'lib']
   s.executables = ["gploy"]
   s.add_dependency(%q<rubigen>, [">= 1.3.4"])
   s.files = FileList['bin/*',  'lib/**/*.rb',  '[A-Z]*'].to_a
