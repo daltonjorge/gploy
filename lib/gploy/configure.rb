@@ -37,6 +37,7 @@ module Gploy
       add_remote(@url, @user, @app_name, @origin)
       push_local(@origin)
       clone_into_server(@app_name)
+      add_remote_origin(@url, @user, @app_name, @origin)
       sys_link(@app_name)
       tmp_create(@app_name)
       update_hook_into_server(@user, @url, @app_name)
@@ -50,7 +51,7 @@ module Gploy
       update_hook(@user, @url, @app_name)
       puts "File successfully Updated"
     end
- 
+
     def path
       "config/post-receive"
     end
@@ -111,6 +112,10 @@ module Gploy
   
     def add_remote(server, user, name, origin)
       execute("git remote add #{origin} #{user}@#{server}:~/repos/#{name}.git")
+    end
+    
+    def add_remote_origin(server, user, name, origin)
+      run_remote("cd rails_app/#{name}/ && git remote add #{origin} ~/repos/#{name}.git/")
     end
   
     def clone(name)
