@@ -2,8 +2,8 @@ require 'logger'
 module Gploy
   module Helpers
     
-     def log_messager(msg)
-      @log.info(msg)
+     def log_messager(cmd)
+      puts " --> #{cmd} "
      end
     
      def run_remote(command)
@@ -27,7 +27,6 @@ module Gploy
        end
        
        def sys_link(name)
-          puts "Symbolic link created successfully"
           run_remote "ln -s ~/rails_app/#{name}/public ~/public_html/#{name}"
        end
        

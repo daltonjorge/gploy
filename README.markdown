@@ -27,7 +27,7 @@ If your git is already configured as origin use another, for example: production
 
 ### The post-receive file:
 
-This file shoudl be like this:
+This file should be like this:
 	
 	      #!/bin/sh
           cd ~/rails_app/project_name
@@ -36,7 +36,43 @@ This file shoudl be like this:
           env -i rake db:migrate RAILS_ENV=production
           env -i touch ~/rails_app/project_name/tmp/restart.txt
 
-The post-receive file is a git hook, read more about hooks at: 
+The post-receive file is a git hook, read more about hooks at: [www.ru.kernel.org](http://www.ru.kernel.org/pub/software/scm/git/docs/v1.5.2.5/hooks.html)
+
+## Usage
+First thing you should do is install the gploy gem in your computer:
+
+	sudo gem install gploy
+
+after it inside your rails project your should execute the following commands:
+
+	> gploy -c // For generate config.yaml file
+
+Now you can edit this file with your data, make sure you not have a origin set in git if you will use it. 
+
+Now lets generate a post-receive file, this file is a git hook, and should have commands that you want that are executed when your run git push in your project, for this execute:
+	
+	> gploy -pr // For generate post-receive file
+	
+This command will generate a snippet like this:
+
+		#!/bin/sh
+		cd ~/rails_app/project_name
+		env -i git reset --hard 
+		env -i git pull project_name master
+		env -i rake db:migrate RAILS_ENV=production
+		env -i touch ~/rails_app/project_name/tmp/restart.txt
+
+Put it inside the config/post-receive file. You can add more commands in the post-receive file if you want.
+
+Finally now your can run the command that will upload your project to the server and do what needs to be done:
+
+	> gploy -s
+
+If no error occurs, your project should be available now.
+
+From now when you want update your project simply do a commit of changes and run git push production master to update project in server.
+
+#OBS: This is a initial version then careful when using it. If you find bugs please let me know, fell free for make a fork in project at [github](http://github.com/edipofederle/gploy) and fix the bugs :D.
 
 
 ## LICENSE:

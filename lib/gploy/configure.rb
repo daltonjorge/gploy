@@ -18,7 +18,6 @@ module Gploy
       puts "---------------------------------------------------------"
       puts "You can put this content into your config.yaml file and edit it"
       post_commands_server
-      puts ""
     end
     
     def configure_hook
@@ -42,7 +41,7 @@ module Gploy
       tmp_create(@app_name)
       update_hook_into_server(@user, @url, @app_name)
       run_tasks
-      puts "OK. No error Found. You now can run git push #{@origin} master for update your project"
+      puts "OK. No error Found. You now can run <git push #{@origin} master> for update your project"
     end
     
     def upload_hook
