@@ -7,14 +7,14 @@ This gem use a structure in webserver like this:
 
 	1. ~/repos  -> For host a git repository
 	2. ~/rails_app -> For host your production project
-	3. ~/public_html -> For create a  syslink to the project in rails_app directory 
+	3. ~/public_html -> For create a  symlink to the project in rails_app directory 
 
 ## Files generated
-This gem generate only two simple file into the config directory in your rails project, one file is called config.yaml and other is post-receive.
+This gem generate only two simple file into the config directory, one file is called config.yaml and other is post-receive.
 
 ### The config.yaml file:
 
-This content file should be like this:
+The contents of this file should be like this:
 	
 	config:
 	      url: host
@@ -23,11 +23,11 @@ This content file should be like this:
 	      app_name: project_name
 	      origin: git origin
 	
-If your git is already configured as origin use another, for example: production
+If your git is already configured for origin use another, for example: production
 
 ### The post-receive file:
 
-This file should be like this:
+The contents of this file should be like this:
 	
 	      #!/bin/sh
           cd ~/rails_app/project_name
@@ -64,7 +64,7 @@ This command will generate a snippet like this:
 
 Put it inside the config/post-receive file. You can add more commands in the post-receive file if you want.
 
-Finally now your can run the command that will upload your project to the server and do what needs to be done:
+Finally now you can run the command that will upload your project to the server and do what needs to be done:
 
 	> gploy -s
 

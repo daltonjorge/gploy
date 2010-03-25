@@ -100,17 +100,15 @@ module Gploy
   
     def create_file_and_direcotry_unless_exists(dir, file)  
       unless dirExists?("#{dir}")
-        puts "directory #{dir} created successfully"
         Dir.mkdir(dir)
       end
       unless File.exists?("config/#{file}")
-        puts "File #{file} created successfully"
         FileUtils.touch "#{dir}/#{file}"
       end
     end
   
     def add_remote(server, user, name, origin)
-      execute("git remote add #{origin} #{user}@#{server}:~/repos/#{name}.git")
+      run_local("git remote add #{origin} #{user}@#{server}:~/repos/#{name}.git")
     end
     
     def add_remote_origin(server, user, name, origin)
@@ -126,7 +124,7 @@ module Gploy
     end
     
     def push_local(origin)
-      run "git push #{origin} master"
+      run_local "git push #{origin} master"
     end
     
     def tmp_create(name)
