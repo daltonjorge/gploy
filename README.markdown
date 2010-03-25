@@ -1,6 +1,6 @@
 ## Introduction
 
-This is a sample RubyGems to configure your Rails Project for deployment using git push, this gem only make a series of configurations in your local project and to in your web server. This gem consider what you are using locaweb to host your project and using git obviously.
+This is a simple RubyGems to configure your Rails Project for deployment using git push, this gem only make a series of configurations in your local project and to in your web server. This gem consider what you are using locaweb to host your project and using git obviously.
 
 ## What directory structure is used
 This gem use a structure in webserver like this:
