@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
 require 'spec/rake/spectask'
  
 GEM = "gploy"
-GEM_VERSION = "0.1.1"
+GEM_VERSION = "0.1.2"
 SUMMARY = "Simple gem to configure rails project deploy using git(locaweb server only)"
 AUTHOR = "Edipo Luis Federle"
 EMAIL = "edipofederle@gmail.com"
