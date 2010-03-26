@@ -92,7 +92,7 @@ module Gploy
     def initialize_local_repo
       puts "Starting local git repository"
       unless dirExists?(".git/")
-        execute("git init && git add . && git commit -m 'Initial Commit' ")
+        run_local("git init && git add . && git commit -m 'Initial Commit' ")
       else
         puts "Git is already configured in this project"
       end
