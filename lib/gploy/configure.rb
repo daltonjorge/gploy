@@ -8,7 +8,7 @@ module Gploy
   class Configure
     
     include Helpers
-    VERSION = '0.1.2'
+    VERSION = '0.1.3'
  
     def configure_server
       create_file_and_direcotry_unless_exists("config", "config.yaml")

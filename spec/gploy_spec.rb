@@ -23,7 +23,7 @@ describe Gploy::Configure do
   end
   
   it "should return a gem version" do
-   Gploy::Configure::VERSION.should == "0.1.2"
+   Gploy::Configure::VERSION.should == "0.1.3"
   end
   
   it "should return correct command to upload file" do
