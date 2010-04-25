@@ -14,7 +14,7 @@ This gem generate only two simple file into the config directory, one file is ca
 
 ### The config.yaml file:
 
-The contents of this file should be like this:
+The contents of this file must be like this:
 	
 	config:
 	      url: host
@@ -27,7 +27,7 @@ If your git is already configured for origin use another, for example: productio
 
 ### The post-receive file:
 
-The contents of this file should be like this:
+The contents of this file must be like this:
 	
 	      #!/bin/sh
           cd ~/rails_app/project_name
@@ -39,17 +39,17 @@ The contents of this file should be like this:
 The post-receive file is a git hook, read more about hooks at: [www.ru.kernel.org](http://www.ru.kernel.org/pub/software/scm/git/docs/v1.5.2.5/hooks.html)
 
 ## Usage
-First thing you should do is install the gploy gem in your computer:
+First thing you must do is install the gploy gem in your computer:
 
 	sudo gem install gploy
 
-after it inside your rails project your should execute the following commands:
+after it inside your rails project your must execute the following commands:
 
 	> gploy -c // For generate config.yaml file
 
 Now you can edit this file with your data, make sure you not have a origin set in git if you will use it. 
 
-Now lets generate a post-receive file, this file is a git hook, and should have commands that you want that are executed when your run git push in your project, for this execute:
+Now lets generate a post-receive file, this file is a git hook, and must have commands that you want that are executed when your run git push in your project, for this execute:
 	
 	> gploy -pr // For generate post-receive file
 	
@@ -68,7 +68,7 @@ Finally now you can run the command that will upload your project to the server 
 
 	> gploy -s
 
-If no error occurs, your project should be available now.
+If no error occurs, your project must be available now.
 
 From now when you want update your project simply do a commit of changes and run git push production master to update project in server.
 
