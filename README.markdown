@@ -1,3 +1,5 @@
+This is version 0.1.4, it has small change in the code, removing some duplication. Also a new method for logs, and other functionality that is now the only gem wheel task migration database when necessary.
+
 ## Introduction
 
 This is a simple RubyGems to configure your Rails Project for deployment using git push, this gem only make a series of configurations in your local project and to in your web server. This gem consider what you are using locaweb to host your project and using git obviously.
