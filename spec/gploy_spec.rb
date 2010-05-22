@@ -22,6 +22,10 @@ describe Gploy::Configure do
     Gploy::Configure::VERSION.should_not be_nil
   end
   
+  it "should have path log file" do
+    Gploy::Configure::LOG_PATH.should == "./log/gploylog.log"
+  end
+  
   it "should return a gem version" do
    Gploy::Configure::VERSION.should == "0.1.3"
   end
@@ -91,6 +95,22 @@ describe Gploy::Configure do
  it "should create a tmp directory into the project folder in server" do
   expect_command_remote "cd rails_app/#{@app_name}/ && mkdir tmp"
   @connection.tmp_create(@app_name)
+ end
+ 
+ it "should checkout if dir log exists in project" do
+   wihtout_dir = @connection.check_if_dir_log_exists
+   wihtout_dir.should be true
+ end
+ 
+ it "should NOT run migrate task" do
+   @connection.migrate(@app_name)
+ end
+ 
+ it "should run migrate task" do
+   Dir.mkdir("db")
+   FileUtils.touch("db/schema.rb")
+   expect_command_remote "cd rails_app/#{@app_name}/ && rake db:migrate RAILS_ENV=production"
+   @connection.migrate(@app_name)
  end
  
 end

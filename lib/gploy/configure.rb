@@ -9,6 +9,7 @@ module Gploy
     
     include Helpers
     VERSION = '0.1.3'
+   
  
     def configure_server
       create_file_and_direcotry_unless_exists("config", "config.yaml")
@@ -29,6 +30,7 @@ module Gploy
     end
   
     def setup
+      check_if_dir_log_exists
       read_config_file
       remote
       initialize_local_repo
@@ -56,7 +58,6 @@ module Gploy
     end
     
     def run_tasks
-      puts "Run db:migrate and Restart Server"
       migrate(@app_name)
       restart_server(@app_name)
     end

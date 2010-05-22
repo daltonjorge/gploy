@@ -1,14 +1,25 @@
-require 'logger'
-
 module Gploy
   module Helpers  
+    LOG_PATH = './log/gploylog.log'
     
-    def log(msg)
+    def check_if_dir_log_exists
+      unless dirExists?("log")
+        Dir.mkdir("log")
+        false
+      else
+        true
+      end
+    end
+    
+    def logger(msg)
       puts "--> #{msg}"
+      File.open(LOG_PATH, 'a+') do |f|
+        f.puts "#{Time.now} => #{msg}"
+      end
     end
     
     def run_remote(command)
-      log(command)
+      logger(command)
       @shell.exec!(command)
     end
 
@@ -17,7 +28,7 @@ module Gploy
     end
 
     def run_local(command)
-      log(command)
+      logger(command)
       Kernel.system command
     end
 
@@ -42,9 +53,21 @@ module Gploy
     def update_hook(username, url, name)
       run_local "scp config/post-receive #{username}@#{url}:repos/#{name}.git/hooks/"
     end
+    
+    def useMigrations?
+      if File.exists?("db/schema.rb")
+        true
+      else
+        false
+      end
+    end
 
     def migrate(name)
-      run_remote "cd rails_app/#{name}/ && rake db:migrate RAILS_ENV=production"
+      if useMigrations?
+        logger("Run db:migrate")
+        run_remote "cd rails_app/#{name}/ && rake db:migrate RAILS_ENV=production"
+      end
+      logger("Projet dont use Migrations yet")
     end
 
     def restart_server(name)
