@@ -1,3 +1,4 @@
 minhagem.gemspec
 pkg
+coverage/*.*
 *.swp
