@@ -8,14 +8,12 @@ module Gploy
   class Configure
     
     include Helpers
-    VERSION = '0.1.3'
-   
- 
+    VERSION = '0.1.5'
+
     def configure_server
       create_file_and_direcotry_unless_exists("config", "config.yaml")
       puts "Files created into the config directory. Now need edit config.yaml"
       puts ""
-      puts "A suggestion for you"
       puts "---------------------------------------------------------"
       puts "You can put this content into your config.yaml file and edit it"
       post_commands_server
@@ -52,6 +50,15 @@ module Gploy
       update_hook(@user, @url, @app_name)
       puts "File successfully Updated"
     end
+    
+    def read_config_file
+      config = YAML.load_file("config/config.yaml")
+      config["config"].each { |key, value| instance_variable_set("@#{key}", value) }
+    end
+    
+    def remote
+      @shell = start(@url, @user, @password)
+    end
 
     def path
       "config/post-receive"
@@ -62,15 +69,6 @@ module Gploy
       restart_server(@app_name)
     end
     
-    def read_config_file
-      config = YAML.load_file("config/config.yaml")
-      config["config"].each { |key, value| instance_variable_set("@#{key}", value) }
-    end
-  
-    def remote
-      @shell = start(@url, @user, @password)
-    end
-  
     def start(server, user, pass)
       Net::SSH.start(server, user, :password => pass)
     end
@@ -115,6 +113,11 @@ module Gploy
     def add_remote_origin(server, user, name, origin)
       run_remote("cd rails_app/#{name}/ && git remote add #{origin} ~/repos/#{name}.git/")
     end
+    
+    def new_deploy
+      read_config_file
+      run_local("git checkout #{@branch} - && git push #{@origin} master")
+    end
   
     def clone(name)
       @shell.exec!("git clone ~/repos/#{name}.git ~/rails_app/#{name}")
@@ -125,11 +128,12 @@ module Gploy
     end
     
     def push_local(origin)
-      run_local "git push #{origin} master"
+      run_local "git checkout master && git push #{origin} master"
     end
     
     def tmp_create(name)
       run_remote "cd rails_app/#{name}/ && mkdir tmp"
     end
+    
   end
 end

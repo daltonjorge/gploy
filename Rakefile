@@ -5,12 +5,20 @@ require 'rake/gempackagetask'
 require 'spec/rake/spectask'
  
 GEM = "gploy"
-GEM_VERSION = "0.1.4"
+GEM_VERSION = "0.1.5"
 SUMMARY = "Simple gem to configure rails project deploy using git(locaweb server only)"
 AUTHOR = "Edipo Luis Federle"
 EMAIL = "edipofederle@gmail.com"
 HOMEPAGE = "http://edipolf.com"
 
+
+desc "Run all examples with RCov"
+Spec::Rake::SpecTask.new('examples_with_rcov') do |t|
+  t.spec_files = FileList['spec/*.rb']
+  t.rcov = true
+  t.rcov_opts = ['--exclude', 'spec']
+  
+end
  
 spec = Gem::Specification.new do |s|
   s.name = GEM

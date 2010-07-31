@@ -4,9 +4,9 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'rubygems'
 require 'gploy'
 require 'spec'
-require 'fakefs'
 
-FakeFS.activate!
+
+
 
 def expect_command_local(command)
   Kernel.should_receive(:system).with(command)

@@ -1,4 +1,10 @@
-This is version 0.1.4, it has small change in the code, removing some duplication. Also a new method for logs, and other functionality that is now the only gem wheel task migration database when necessary.
+Version 0.1.5 brings some improvements in the way it will deploy.
+
+Notes Version 0.1.5
+
+Now the file confi.yml won a new line, this line indicates which branch of git you want to deploy, in the version 0.1.4 gploy performed the deploy the current branch, since you now want to deploy can make using a new command called gploy -d or gploy --deploy  to change the branch and run deploy(git push) from the branch specified in config.yml
+
+The log file was also changed to indicate that the command was run locally or remotely.
 
 ## Introduction
 
@@ -7,8 +13,8 @@ This is a simple RubyGems to configure your Rails Project for deployment using g
 ## What directory structure is used
 This gem use a structure in webserver like this:
 
-	1. ~/repos  -> For host a git repository
-	2. ~/rails_app -> For host your production project
+	1. ~/repos       -> For host a git repository
+	2. ~/rails_app   -> For host your production project
 	3. ~/public_html -> For create a  symlink to the project in rails_app directory 
 
 ## Files generated
@@ -24,7 +30,8 @@ The contents of this file must be like this:
 	      password: password
 	      app_name: project_name
 	      origin: git origin
-	
+		  branch: git branch
+		
 If your git is already configured for origin use another, for example: production
 
 ### The post-receive file:
@@ -72,8 +79,9 @@ Finally now you can run the command that will upload your project to the server 
 
 If no error occurs, your project must be available now.
 
-From now when you want update your project simply do a commit of changes and run git push production master to update project in server.
-
+From now when you want update your project simply do a commit of changes and run git push production master to update project in server or run:
+   
+	> gploy -d
 #OBS: This is a initial version then careful when using it. If you find bugs please let me know, fell free for make a fork in project at [github](http://github.com/edipofederle/gploy) and fix the bugs :D.
 
 

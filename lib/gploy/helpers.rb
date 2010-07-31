@@ -4,22 +4,22 @@ module Gploy
     
     def check_if_dir_log_exists
       unless dirExists?("log")
-        Dir.mkdir("log")
+        Dir.mkdir("log") 
         false
       else
         true
       end
     end
     
-    def logger(msg)
+    def logger(msg, type)
       puts "--> #{msg}"
       File.open(LOG_PATH, 'a+') do |f|
-        f.puts "#{Time.now} => #{msg}"
+        f.puts "#{Time.now} => |#{type}| #{msg}"
       end
     end
     
     def run_remote(command)
-      logger(command)
+      logger(command, "remote")
       @shell.exec!(command)
     end
 
@@ -28,24 +28,14 @@ module Gploy
     end
 
     def run_local(command)
-      logger(command)
+      logger(command, "local")
       Kernel.system command
     end
 
     def sys_link(name)
       run_remote "ln -s ~/rails_app/#{name}/public ~/public_html/#{name}"
     end
-
-    def read_hook_sample(name)
-      puts "Escrevendo Hook File"
-      path = "~/repos/#{name}.git/hooks/post-receive"
-      File.open("config/post-receive", "r") do |fline|
-        while(line = fline.gets)
-          @shell.exec!("echo '#{line}' >> #{path}")
-        end
-      end
-    end
-
+    
     def update_hook_into_server(username, url, name)
       run_local "chmod +x config/post-receive && scp config/post-receive #{username}@#{url}:repos/#{name}.git/hooks/"
     end
@@ -64,15 +54,15 @@ module Gploy
 
     def migrate(name)
       if useMigrations?
-        logger("Run db:migrate")
+        logger("Run db:migrate", "remote")
         run_remote "cd rails_app/#{name}/ && rake db:migrate RAILS_ENV=production"
       end
-      logger("Projet dont use Migrations yet")
+      logger("rake db:migrae => FALSE", nil)
     end
 
     def restart_server(name)
+      logger("restart server", "remote")
       run_remote "cd rails_app/#{name}/tmp && touch restart.txt"
-      puts "Server Restarted"
     end
 
     def post_commands
@@ -84,7 +74,7 @@ module Gploy
         env -i rake db:migrate RAILS_ENV=production
         env -i touch ~/rails_app/#{@app_name}/tmp/restart.txt 
 CMD
-        puts commands
+         puts commands
     end
 
     def post_commands_server
