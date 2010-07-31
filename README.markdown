@@ -1,9 +1,7 @@
 Version 0.1.5 brings some improvements in the way it will deploy.
 
 Notes Version 0.1.5
-
-Now the file confi.yml won a new line, this line indicates which branch of git you want to deploy, in the version 0.1.4 gploy performed the deploy the current branch, since you now want to deploy can make using a new command called gploy -d or gploy --deploy  to change the branch and run deploy(git push) from the branch specified in config.yml
-
+A new command called gploy -d
 The log file was also changed to indicate that the command was run locally or remotely.
 
 ## Introduction
@@ -30,7 +28,6 @@ The contents of this file must be like this:
 	      password: password
 	      app_name: project_name
 	      origin: git origin
-		  branch: git branch
 		
 If your git is already configured for origin use another, for example: production
 
