@@ -1,9 +1,10 @@
 Version 0.1.5 brings some improvements in the way it will deploy.
 
 Notes Version 0.1.5
-A new command called gploy -d
-The log file was also changed to indicate that the command was run locally or remotely.
-
+ -A new command called gploy -d
+ -The log file was also changed to indicate that the command was run locally or remotely.
+ -Now gploy only make deploy of content in a master branch, for this reason the line "branch" in the config.yaml file was been     deleted, so make sure that master branch its ok.
+- The source code is still a little messy, but it was changed to better, the code now has 66.95% coverage.
 ## Introduction
 
 This is a simple RubyGems to configure your Rails Project for deployment using git push, this gem only make a series of configurations in your local project and to in your web server. This gem consider what you are using locaweb to host your project and using git obviously.
