@@ -32,14 +32,14 @@ module Gploy
       read_config_file
       remote
       initialize_local_repo
-      create_repo(@app_name)
+      create_repo(@repo_dir, @app_name)
       add_remote(@url, @user, @app_name, @origin)
       push_local(@origin)
-      clone_into_server(@app_name)
-      add_remote_origin(@url, @user, @app_name, @origin)
+      clone_into_server(@repo_dir, @app_name)
+      add_remote_origin(@url, @user, @repo_dir, @app_name, @origin)
       sys_link(@app_name)
       tmp_create(@app_name)
-      update_hook_into_server(@user, @url, @app_name)
+      update_hook_into_server(@user, @url, @repo_dir, @app_name)
       run_tasks
       puts "OK. No error Found. You now can run <git push #{@origin} master> for update your project"
     end
@@ -73,12 +73,12 @@ module Gploy
       Net::SSH.start(server, user, :password => pass)
     end
   
-    def path_hook(name)
-      "~/repos/#{name}.git/hooks/post-receive"
+    def path_hook(repo_dir, name)
+      "~/#{repo_dir}/#{name}.git/hooks/post-receive"
     end
   
-    def create_repo(name)
-      run_remote "cd repos/ && mkdir #{name}.git && cd #{name}.git && git init --bare"
+    def create_repo(repo_dir, name)
+      run_remote "cd #{repo_dir}/ && mkdir #{name}.git && cd #{name}.git && git init --bare"
     end
 
     def create_hook_file
@@ -106,12 +106,12 @@ module Gploy
       end
     end
   
-    def add_remote(server, user, name, origin)
-      run_local("git remote add #{origin} #{user}@#{server}:~/repos/#{name}.git")
+    def add_remote(server, user, repo_dir, name, origin)
+      run_local("git remote add #{origin} #{user}@#{server}:~/#{repo_dir}/#{name}.git")
     end
     
-    def add_remote_origin(server, user, name, origin)
-      run_remote("cd rails_app/#{name}/ && git remote add #{origin} ~/repos/#{name}.git/")
+    def add_remote_origin(server, user, repo_dir, name, origin)
+      run_remote("cd rails_app/#{name}/ && git remote add #{origin} ~/#{repo_dir}/#{name}.git/")
     end
     
     def new_deploy
@@ -119,12 +119,12 @@ module Gploy
       run_local("git checkout #{@branch} - && git push #{@origin} master")
     end
   
-    def clone(name)
-      @shell.exec!("git clone ~/repos/#{name}.git ~/rails_app/#{name}")
+    def clone(repo_dir, name)
+      @shell.exec!("git clone ~/#{repo_dir}/#{name}.git ~/rails_app/#{name}")
     end
     
-    def clone_into_server(name)
-      run_remote "git clone repos/#{name}.git ~/rails_app/#{name}"
+    def clone_into_server(repo_dir, name)
+      run_remote "git clone #{repo_dir}/#{name}.git ~/rails_app/#{name}"
     end
     
     def push_local(origin)

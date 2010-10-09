@@ -28,6 +28,7 @@ The contents of this file must be like this:
 	      user: username
 	      password: password
 	      app_name: project_name
+              repo_dir: repositories_directory
 	      origin: git origin
 		
 If your git is already configured for origin use another, for example: production

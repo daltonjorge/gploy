@@ -25,6 +25,7 @@ describe Gploy::Configure do
     @user = "user_name"
     @password = "user_senha"
     @app_name = "fake_project"
+    @repo_dir = "fake_repository"
     @origin = "production"
   end
   
@@ -58,13 +59,13 @@ describe Gploy::Configure do
 
   context "Configuration" do
     it "should return correct command to upload file" do
-     expect_command_local "chmod +x config/post-receive && scp config/post-receive #{@user}@#{@url}:repos/#{@app_name}.git/hooks/"
-     @connection.update_hook_into_server(@user, @url, @app_name)
+     expect_command_local "chmod +x config/post-receive && scp config/post-receive #{@user}@#{@url}:#{@repo_dir}/#{@app_name}.git/hooks/"
+     @connection.update_hook_into_server(@user, @url, @repo_dir, @app_name)
     end
 
     it "should upload post-receive file" do
-      expect_command_local "scp config/post-receive #{@user}@#{@url}:repos/#{@app_name}.git/hooks/"
-      @connection.update_hook(@user, @url, @app_name)
+      expect_command_local "scp config/post-receive #{@user}@#{@url}:#{@repo_dir}/#{@app_name}.git/hooks/"
+      @connection.update_hook(@user, @url, @repo_dir, @app_name)
     end
     
      it "should have a file post-receive into the config folder" do
@@ -86,7 +87,7 @@ describe Gploy::Configure do
     end
 
     it "should return a path for hook post-receive file into server" do
-      @connection.path_hook(@name).should  == "~/repos/#{@name}.git/hooks/post-receive"
+      @connection.path_hook(@repo_dir, @name).should  == "~/#{@repo_dir}/#{@name}.git/hooks/post-receive"
     end
     
     it "should create a symbolic link into the server" do
@@ -103,23 +104,23 @@ describe Gploy::Configure do
   
   context "Git Commands" do
      it "should create a repository and initialize git in server" do
-       expect_command_remote "cd repos/ && mkdir nome.git && cd nome.git && git init --bare"
-       @connection.create_repo("nome")
+       expect_command_remote "cd #{@repo_dir}/ && mkdir nome.git && cd nome.git && git init --bare"
+       @connection.create_repo(@repo_dir, "nome")
      end
 
      it "should add git remote origin in local project" do
-      expect_command_local "git remote add #{@origin} #{@user}@#{@url}:~/repos/#{@app_name}.git"
-      @connection.add_remote(@url, @user, @app_name, @origin)
+      expect_command_local "git remote add #{@origin} #{@user}@#{@url}:~/#{@repo_dir}/#{@app_name}.git"
+      @connection.add_remote(@url, @user, @repo_dir, @app_name, @origin)
      end
 
      it "should run clone into server" do
-      expect_command_remote "git clone ~/repos/#{@app_name}.git ~/rails_app/#{@app_name}"
-      @connection.clone(@app_name)
+      expect_command_remote "git clone ~/#{@repo_dir}/#{@app_name}.git ~/rails_app/#{@app_name}"
+      @connection.clone(@repo_dir, @app_name)
      end
 
     it "should clone project into the server" do
-      expect_command_remote "git clone repos/#{@app_name}.git ~/rails_app/#{@app_name}"
-      @connection.clone_into_server(@app_name)
+      expect_command_remote "git clone #{@repo_dir}/#{@app_name}.git ~/rails_app/#{@app_name}"
+      @connection.clone_into_server(@repo_dir, @app_name)
     end
     
     it "should run push origin master" do

@@ -36,12 +36,12 @@ module Gploy
       run_remote "ln -s ~/rails_app/#{name}/public ~/public_html/#{name}"
     end
     
-    def update_hook_into_server(username, url, name)
-      run_local "chmod +x config/post-receive && scp config/post-receive #{username}@#{url}:repos/#{name}.git/hooks/"
+    def update_hook_into_server(username, url, repo_dir, name)
+      run_local "chmod +x config/post-receive && scp config/post-receive #{username}@#{url}:#{repo_dir}/#{name}.git/hooks/"
     end
 
-    def update_hook(username, url, name)
-      run_local "scp config/post-receive #{username}@#{url}:repos/#{name}.git/hooks/"
+    def update_hook(username, url, repo_dir, name)
+      run_local "scp config/post-receive #{username}@#{url}:#{repo_dir}/#{name}.git/hooks/"
     end
     
     def useMigrations?
@@ -84,6 +84,7 @@ CMD
         user: <userbae>
         password: <password>
         app_name: <app_name>
+        repo_dir: <repositories_directory>
         origin: <git origin>
 CMD
         puts commands
