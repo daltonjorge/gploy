@@ -33,7 +33,7 @@ module Gploy
       remote
       initialize_local_repo
       create_repo(@repo_dir, @app_name)
-      add_remote(@url, @user, @app_name, @origin)
+      add_remote(@url, @user, @repo_dir, @app_name, @origin)
       push_local(@origin)
       clone_into_server(@repo_dir, @app_name)
       add_remote_origin(@url, @user, @repo_dir, @app_name, @origin)
